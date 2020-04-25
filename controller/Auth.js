@@ -1,13 +1,16 @@
 const UsersModel = require('../model/Users');
 const usersModel = new UsersModel();
 
+const createToken = require('../utils/createToken');
+const cryptoPassword = require('../utils/cryptoPassword');
+
 class Auth {
     validate(req, res) {
         const { email, password } = req.body;
         
         const conditions = [
             { field: 'email', operator: '==', value: email },
-            { field: 'password', operator: '==', value: password }
+            { field: 'password', operator: '==', value: cryptoPassword(password) }
         ];
 
         usersModel.getBy(conditions)
@@ -21,8 +24,7 @@ class Auth {
                         });
                 }
 
-                // console.log(users.docs[0].id)
-
+                res.send({ token: createToken({ id: users.docs[0].id }) });
             })
             .catch(error => res.status(500).send(error));
     }

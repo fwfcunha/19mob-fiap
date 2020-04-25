@@ -21,6 +21,10 @@ class Users extends BaseModel {
 
         return db.get();
     }
+
+    create(data) {
+        return this.db.collection('users').add(data);
+    }
 }
 
 module.exports = Users;
