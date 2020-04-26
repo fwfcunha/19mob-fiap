@@ -16,7 +16,7 @@ class Auth {
         usersModel.getBy(conditions)
             .then(users => {
                 if(users.docs.length === 0) {
-                    return response
+                    return res
                         .status(401)
                         .send({ 
                             code: 'not_found',
